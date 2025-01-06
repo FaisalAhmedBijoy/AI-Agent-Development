@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant</title>
+</head>
+<body>
+    <h1>AI Assistant</h1>
+    <textarea id="command" rows="4" cols="50" placeholder="Enter your command"></textarea><br>
+    <button onclick="sendCommand()">Submit</button>
+    <button onclick="startVoice()">Voice Input</button>
+    <p id="response"></p>
+    <script>
+        const apiUrl = "http://127.0.0.1:5000/process";
+
+        async function sendCommand() {
+            const command = document.getElementById("command").value;
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ command }),
+            });
+            const result = await response.json();
+            document.getElementById("response").innerText = JSON.stringify(result, null, 2);
+        }
+
+        function startVoice() {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = "en-US";
+            recognition.onresult = function (event) {
+                document.getElementById("command").value = event.results[0][0].transcript;
+                sendCommand(); // Auto-submit after capturing voice input
+            };
+            recognition.start();
+        }
+    </script>
+</body>
+</html>
