@@ -26,10 +26,10 @@ def save_audio(audio):
         duration = len(audio_array) / sampling_rate
 
         # Return detailed information
-        filename_str = f"Audio saved to: {filename}"
-        sampling_rate_str = f"Sampling Rate: {sampling_rate} Hz"
-        duration_str = f"Duration: {duration:.2f} seconds"
-        file_size_str = f"File Size: {os.path.getsize(filename) / 1024:.2f} KB"
+        filename_str = filename
+        sampling_rate_str = f"{sampling_rate} Hz"
+        duration_str = f"{duration:.2f} seconds"
+        file_size_str = f"{os.path.getsize(filename) / 1024:.2f} KB"
         return filename_str, sampling_rate_str, duration_str, file_size_str
 
     except Exception as e:
